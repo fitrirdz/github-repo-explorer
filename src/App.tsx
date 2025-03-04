@@ -1,68 +1,53 @@
 import { useState } from 'react';
+import SearchBar from './components/SearchBar';
+import { User } from './interfaces/User';
+import SearchResult from './components/SearchResult';
+import api from './api';
 
-type GitHubUser = {
-  login: string;
-  avatar_url: string;
-  html_url: string;
-  name?: string;
-  bio?: string;
-};
-
-export default function GitHubSearch() {
+export default function GitHubUserSearch() {
   const [username, setUsername] = useState('');
-  const [user, setUser] = useState<GitHubUser | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const searchUser = async () => {
+  const searchUsers = async () => {
     if (!username) return;
 
     try {
       setError('');
-      setUser(null);
-      const response = await fetch(`https://api.github.com/users/${username}`);
-      if (!response.ok) throw new Error('User not found');
+      setUsers([]);
+      setIsLoading(true);
 
-      const data: GitHubUser = await response.json();
-      setUser(data);
+      const response = await api.get(
+        `/search/users?per_page=100&q=${username}`
+      );
+      if (response.data.items.length === 0) throw new Error('No users found');
+
+      setUsers(response.data.items);
     } catch (err) {
-      setError('User not found');
-      console.error(err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className='flex flex-col items-center p-4'>
-      <h1 className='text-2xl font-bold mb-4'>GitHub User Search</h1>
-      <input
-        type='text'
-        className='border rounded p-2'
-        placeholder='Enter GitHub username'
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <button
-        className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'
-        onClick={searchUser}
-      >
-        Search
-      </button>
+    <div className='w-screen min-h-screen text-gray-600 bg-gray-100'>
+      <div className='mx-auto w-full min-h-screen md:w-2/3 md:shadow-md flex flex-col items-center p-4 bg-white'>
+        <h1 className='text-2xl font-bold mb-4'>
+          GitHub Repositories Explorer
+        </h1>
 
-      {error && <p className='text-red-500 mt-2'>{error}</p>}
+        {/* Search Bar */}
+        <SearchBar
+          username={username}
+          onChange={setUsername}
+          onSubmit={searchUsers}
+        />
 
-      {user && (
-        <div className='mt-4 border p-4 rounded shadow-md text-center'>
-          <img
-            src={user.avatar_url}
-            alt={user.login}
-            className='w-24 h-24 rounded-full mx-auto'
-          />
-          <h2 className='text-lg font-semibold'>{user.name || user.login}</h2>
-          <p className='text-gray-600'>{user.bio}</p>
-          <a href={user.html_url} target='_blank' className='text-blue-500'>
-            View Profile
-          </a>
-        </div>
-      )}
+        {/* User List */}
+        <SearchResult users={users} isLoading={isLoading} error={error} />
+      </div>
     </div>
   );
 }
