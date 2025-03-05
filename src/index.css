@@ -33,13 +33,14 @@ body {
 }
 
 input:focus,
-button:focus {
+button:focus,
+a:focus {
   outline: none;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #3b3b3b;
     background-color: #ffffff;
   }
   a:hover {

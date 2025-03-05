@@ -33,7 +33,7 @@ export default function GitHubUserSearch() {
 
   return (
     <div className='w-screen min-h-screen text-gray-600 bg-gray-100'>
-      <div className='mx-auto w-full min-h-screen md:w-2/3 md:shadow-md flex flex-col items-center p-4 bg-white'>
+      <div className='mx-auto w-full min-h-screen md:w-2/3 md:shadow-md flex flex-col items-center px-16 py-8 bg-white'>
         <h1 className='text-2xl font-bold mb-4'>
           GitHub Repositories Explorer
         </h1>
@@ -43,6 +43,7 @@ export default function GitHubUserSearch() {
           username={username}
           onChange={setUsername}
           onSubmit={searchUsers}
+          isLoading={isLoading}
         />
 
         {/* User List */}
