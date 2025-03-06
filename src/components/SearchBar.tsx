@@ -35,13 +35,13 @@ const SearchBar = ({
         />
 
         {username.length > 0 && (
-          <button
+          <span
             className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600'
             onClick={() => onChange('')}
             aria-label='Clear input'
           >
             <XCircleIcon className='h-5 w-5' />
-          </button>
+          </span>
         )}
       </div>
 

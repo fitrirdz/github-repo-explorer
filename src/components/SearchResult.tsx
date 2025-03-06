@@ -1,34 +1,37 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { User } from '../interfaces/User';
 import ErrorMessage from './ErrorMessage';
 import Loading from './Loading';
-import { ChevronDownIcon, StarIcon } from '@heroicons/react/24/solid';
-import { Repository } from '../interfaces/Repository';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import Repositories from './Repositories';
+import { useRepositories } from '../queries/repositories';
 
 interface SearchResultProps {
   users: User[];
-  error: string;
-  isLoading: boolean;
+  error: Error | null;
   keyword: string;
-  handleClick: (index: number) => void;
-  repositories: Repository[];
+  isLoadingResult: boolean;
 }
 
 const SearchResult = memo(
-  ({
-    users,
-    error,
-    isLoading,
-    keyword,
-    handleClick,
-    repositories,
-  }: SearchResultProps) => {
-    if (isLoading) {
+  ({ users, error, keyword, isLoadingResult }: SearchResultProps) => {
+    const [url, setUrl] = useState<string>('');
+    const { data: repositories, isLoading } = useRepositories(url);
+
+    const handleClick = (reposUrl: string) => {
+      if (reposUrl === url) {
+        setUrl('');
+        return;
+      }
+      setUrl(reposUrl);
+    };
+
+    if (isLoadingResult && users?.length === 0) {
       return <Loading />;
     }
 
     if (error) {
-      return <ErrorMessage text={error} />;
+      return <ErrorMessage text={error.message} />;
     }
 
     return (
@@ -36,49 +39,37 @@ const SearchResult = memo(
         {users?.length > 0 && !isLoading && (
           <p className='font-semibold'>Showing users for "{keyword}"</p>
         )}
-        {users?.map((user, index) => (
-          <div
-            key={user.login}
-            className='relative bg-gray-200 text-black p-4 rounded-lg shadow'
-          >
-            {/* User Header */}
-            <div className='flex justify-between items-center'>
-              <h2 className='text-lg font-semibold'>{user.login}</h2>
-              <button
-                className='cursor-pointer focus:outline-none'
-                aria-label='Expand list'
-                onClick={() => handleClick(index)}
-              >
-                <ChevronDownIcon
-                  className={`h-5 w-5 transition-transform duration-300 ${
-                    user.isActive ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-            </div>
+        {users?.map((user) => {
+          const isExpanded = user.repos_url === url;
 
-            <div
-              className={`overflow-hidden transition-all duration-300 ${
-                user?.isActive ? 'max-h-96 mt-3 overflow-y-auto' : 'max-h-0'
-              }`}
-            >
-              <div className='bg-gray-100 p-3 rounded-md shadow-inner space-y-2'>
-                {repositories.map((repo) => (
-                  <div key={repo.name} className='border p-2 rounded'>
-                    <p className='font-medium'>{repo.name}</p>
-                    <p className='text-sm text-gray-600'>
-                      {repo.description || 'No description'}
-                    </p>
-                    <span className='flex items-center text-sm text-gray-700'>
-                      {repo.stargazers_count}{' '}
-                      <StarIcon className='h-4 w-4 text-yellow-500 ml-1' />
-                    </span>
-                  </div>
-                ))}
+          return (
+            <div key={user.login} className='relative'>
+              {/* User Header */}
+              <div
+                className='flex justify-between items-center bg-gray-200 text-black p-4 rounded-xs shadow'
+                onClick={() => handleClick(user.repos_url)}
+              >
+                <h2 className='text-lg font-semibold'>{user.login}</h2>
+                <span
+                  className='cursor-pointer focus:outline-none'
+                  aria-label='Expand list'
+                >
+                  <ChevronDownIcon
+                    className={`h-5 w-5 transition-transform duration-300 ${
+                      isExpanded ? 'rotate-180' : ''
+                    }`}
+                  />
+                </span>
               </div>
+
+              <Repositories
+                repositories={repositories || []}
+                isExpanded={isExpanded}
+                isLoading={isLoading}
+              />
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     );
   }
