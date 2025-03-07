@@ -1,11 +1,13 @@
 import { memo, useState } from 'react';
-import { User } from '../interfaces/user';
-import ErrorMessage from './ErrorMessage';
-import Loading from './Loading';
+import { User } from '../../interfaces/user';
+
+import Loading from '../Loading';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
-import Repositories from './Repositories';
-import { useRepositories } from '../queries/repositories';
-import EmptyState from './EmptyState';
+
+import { useRepositories } from '../../queries/repositories';
+import EmptyState from '../EmptyState';
+import ErrorMessage from '../ErrorMessage';
+import Repositories from '../Repositories';
 
 interface SearchResultProps {
   users: User[];

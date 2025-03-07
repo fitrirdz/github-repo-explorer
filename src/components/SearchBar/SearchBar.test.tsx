@@ -2,44 +2,46 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import SearchBar from '.';
 import { vi } from 'vitest';
 
-test('renders search input and button', () => {
-  render(
-    <SearchBar
-      username=''
-      onChange={() => {}}
-      onSubmit={() => {}}
-      isLoading={false}
-    />
-  );
+describe('SearchBar Component', () => {
+  test('renders search input and button', () => {
+    render(
+      <SearchBar
+        username=''
+        onChange={() => {}}
+        onSubmit={() => {}}
+        isLoading={false}
+      />
+    );
 
-  expect(screen.getByPlaceholderText('Enter username')).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
-});
+    expect(screen.getByPlaceholderText('Enter username')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
+  });
 
-test('disables button when input is empty', () => {
-  render(
-    <SearchBar
-      username=''
-      onChange={() => {}}
-      onSubmit={() => {}}
-      isLoading={false}
-    />
-  );
+  test('disables button when input is empty', () => {
+    render(
+      <SearchBar
+        username=''
+        onChange={() => {}}
+        onSubmit={() => {}}
+        isLoading={false}
+      />
+    );
 
-  expect(screen.getByRole('button', { name: /search/i })).toBeDisabled();
-});
+    expect(screen.getByRole('button', { name: /search/i })).toBeDisabled();
+  });
 
-test('calls onSubmit when button is clicked', () => {
-  const onSubmitMock = vi.fn();
-  render(
-    <SearchBar
-      username='test'
-      onChange={() => {}}
-      onSubmit={onSubmitMock}
-      isLoading={false}
-    />
-  );
+  test('calls onSubmit when button is clicked', () => {
+    const onSubmitMock = vi.fn();
+    render(
+      <SearchBar
+        username='test'
+        onChange={() => {}}
+        onSubmit={onSubmitMock}
+        isLoading={false}
+      />
+    );
 
-  fireEvent.click(screen.getByRole('button', { name: /search/i }));
-  expect(onSubmitMock).toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: /search/i }));
+    expect(onSubmitMock).toHaveBeenCalled();
+  });
 });

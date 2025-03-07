@@ -2,7 +2,10 @@ import folderImg from '/folder.png';
 
 const EmptyState = () => {
   return (
-    <div className='w-full flex-1 flex flex-col items-center justify-center space-y-3'>
+    <div
+      data-testid='empty-state'
+      className='w-full flex-1 flex flex-col items-center justify-center space-y-3'
+    >
       <img
         src={folderImg}
         width={100}

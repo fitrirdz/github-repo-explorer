@@ -1,9 +1,8 @@
 import { StarIcon } from '@heroicons/react/24/solid';
-
-import { Repository } from '../interfaces/repository';
-import { formatNumber } from '../utils/common';
-import Loading from './Loading';
-import EmptyState from './EmptyState';
+import { Repository } from '../../interfaces/repository';
+import Loading from '../Loading';
+import { formatNumber } from '../../utils/common';
+import EmptyState from '../EmptyState';
 
 interface RepositoriesProps {
   repositories: Repository[];
