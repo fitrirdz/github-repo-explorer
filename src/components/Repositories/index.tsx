@@ -36,7 +36,7 @@ const Repositories = ({
                 rel='noopener noreferrer'
               >
                 <div className='flex flex-col overflow-hidden w-9/12'>
-                  <a className='font-bold text-black'>{repo.name}</a>
+                  <p className='font-bold text-black'>{repo.name}</p>
                   <p className='text-sm text-gray-600 truncate'>
                     {repo.description || 'No description'}
                   </p>
