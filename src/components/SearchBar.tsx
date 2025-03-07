@@ -4,7 +4,7 @@ import { XCircleIcon } from '@heroicons/react/24/solid';
 interface SearchBarProps {
   username: string;
   onChange: (value: string) => void;
-  onSubmit: () => void;
+  onSubmit: (value: string) => void;
   isLoading: boolean;
 }
 
@@ -37,7 +37,10 @@ const SearchBar = ({
         {username.length > 0 && (
           <span
             className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600'
-            onClick={() => onChange('')}
+            onClick={() => {
+              onChange('');
+              onSubmit('');
+            }}
             aria-label='Clear input'
           >
             <XCircleIcon className='h-5 w-5' />
@@ -47,7 +50,7 @@ const SearchBar = ({
 
       <button
         className='bg-sky-600 text-white px-4 py-2 rounded-xs w-full sm:w-32 active:bg-sky-700 disabled:bg-gray-400 focus:border-2 focus:border-sky-700'
-        onClick={onSubmit}
+        onClick={() => onSubmit(username)}
         id='submit'
         disabled={username.length === 0 || isLoading}
       >

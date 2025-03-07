@@ -2,15 +2,12 @@ import { useState } from 'react';
 import SearchBar from './components/SearchBar';
 import SearchResult from './components/SearchResult';
 import { useUsers } from './queries/users';
+import InitialView from './components/InitialView';
 
 export default function App() {
   const [username, setUsername] = useState('');
   const [keyword, setKeyword] = useState('');
   const { data: users, isLoading, error } = useUsers(keyword);
-
-  const searchUsers = () => {
-    setKeyword(username);
-  };
 
   return (
     <div className='w-screen min-h-screen text-gray-600 bg-gray-100'>
@@ -23,17 +20,19 @@ export default function App() {
         <SearchBar
           username={username}
           onChange={setUsername}
-          onSubmit={searchUsers}
+          onSubmit={setKeyword}
           isLoading={isLoading}
         />
-
-        {/* User List */}
-        <SearchResult
-          users={users || []}
-          error={error}
-          keyword={keyword}
-          isLoadingResult={isLoading}
-        />
+        {!keyword || username.length === 0 ? (
+          <InitialView />
+        ) : (
+          <SearchResult
+            users={users || []}
+            error={error}
+            keyword={keyword}
+            isLoadingResult={isLoading}
+          />
+        )}
       </div>
     </div>
   );

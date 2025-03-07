@@ -5,6 +5,7 @@ import Loading from './Loading';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import Repositories from './Repositories';
 import { useRepositories } from '../queries/repositories';
+import EmptyState from './EmptyState';
 
 interface SearchResultProps {
   users: User[];
@@ -32,6 +33,10 @@ const SearchResult = memo(
 
     if (error) {
       return <ErrorMessage text={error.message} />;
+    }
+
+    if (users.length === 0) {
+      return <EmptyState />;
     }
 
     return (
