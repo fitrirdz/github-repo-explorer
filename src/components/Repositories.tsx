@@ -29,19 +29,15 @@ const Repositories = ({
         repositories.length > 0 ? (
           <div className='pl-5 pr-0 space-y-2'>
             {repositories?.map((repo) => (
-              <div
+              <a
                 key={repo.name}
-                className='flex items-start space-x-4 p-2 rounded-xs bg-gray-300'
+                className='flex items-start space-x-4 p-2 rounded-xs bg-gray-300 hover:bg-gray-400'
+                href={repo.html_url}
+                target='_blank'
+                rel='noopener noreferrer'
               >
                 <div className='flex flex-col overflow-hidden w-9/12'>
-                  <a
-                    href={repo.html_url}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='font-bold text-black'
-                  >
-                    {repo.name}
-                  </a>
+                  <a className='font-bold text-black'>{repo.name}</a>
                   <p className='text-sm text-gray-600 truncate'>
                     {repo.description || 'No description'}
                   </p>
@@ -54,7 +50,7 @@ const Repositories = ({
                     <StarIcon className='size-4' />
                   </span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         ) : (

@@ -51,7 +51,7 @@ const SearchResult = memo(
             <div key={user.login} className='relative'>
               {/* User Header */}
               <div
-                className='flex justify-between items-center bg-gray-200 text-black p-4 rounded-xs shadow'
+                className='flex justify-between items-center bg-gray-200 text-black p-4 rounded-xs shadow hover:bg-gray-300'
                 onClick={() => handleClick(user.repos_url)}
               >
                 <h2 className='text-lg font-semibold'>{user.login}</h2>

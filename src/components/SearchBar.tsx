@@ -26,7 +26,7 @@ const SearchBar = ({
       <div className='relative flex-1'>
         <input
           type='text'
-          className='w-full border-2 border-gray-300 rounded-xs p-2 pr-10 bg-gray-100 placeholder-gray-300 focus:border-sky-600'
+          className='w-full border-2 border-gray-300 rounded-xs p-2 pr-10 bg-gray-100 placeholder-gray-400 focus:border-sky-600'
           placeholder='Enter username'
           value={username}
           onChange={(e) => onChange(e.target.value)}
