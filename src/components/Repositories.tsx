@@ -34,7 +34,14 @@ const Repositories = ({
                 className='flex items-start space-x-4 p-2 rounded-xs bg-gray-300'
               >
                 <div className='flex flex-col overflow-hidden w-9/12'>
-                  <p className='font-bold'>{repo.name}</p>
+                  <a
+                    href={repo.html_url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='font-bold text-black'
+                  >
+                    {repo.name}
+                  </a>
                   <p className='text-sm text-gray-600 truncate'>
                     {repo.description || 'No description'}
                   </p>
