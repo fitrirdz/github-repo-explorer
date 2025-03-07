@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { User } from '../interfaces/User';
+import { User } from '../interfaces/user';
 import ErrorMessage from './ErrorMessage';
 import Loading from './Loading';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';

@@ -1,5 +1,5 @@
 import api from '.';
-import { Repository } from '../interfaces/Repository';
+import { Repository } from '../interfaces/repository';
 
 export const fetchRepositories = async (
   reposUrl: string

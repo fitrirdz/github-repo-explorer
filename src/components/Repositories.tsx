@@ -1,6 +1,6 @@
 import { StarIcon } from '@heroicons/react/24/solid';
 
-import { Repository } from '../interfaces/Repository';
+import { Repository } from '../interfaces/repository';
 import { formatNumber } from '../utils/common';
 import Loading from './Loading';
 import EmptyState from './EmptyState';
